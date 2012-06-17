@@ -7,24 +7,30 @@
 
 #include <cstdlib>
 
-//TODO: Use namespace insteaad of use
+//TODO: Should be a collection of using std:: statements
 using namespace std;
 
-class WordList 
-{
-public:
-    //Constructor and destructor
-    WordList(string listPath);
-    ~WordList();
+//---------------------------------------------------------------------------
+// File handler for the word list and methods to extract words from it
+//---------------------------------------------------------------------------
+class WordList {
 
-    //Methods
-    string getRandomWord();
+    public:
+        /** Public methods **/
+        string getRandomWord();
 
-private:
-    ifstream _file;
-    unsigned int _length;
+        /** Constructor **/
+        WordList(string listPath);
 
-    //Methods
-    bool openFile(string listPath);
+        /** Destructor **/
+        ~WordList();
+
+    private:
+        /** Private methods **/
+        bool openFile(string listPath);
+
+        /** Instance variables **/
+        ifstream _file;
+        unsigned int _length;
 };
 #endif

@@ -3,8 +3,10 @@
 
 #include "hangman.hpp"
 
-int main(int argc, char* argv[])
-{
+//---------------------------------------------------------------------------
+// Checks if any command line parameters have been given, starts the game
+//---------------------------------------------------------------------------
+int main(int argc, char* argv[]) {
     //Placement of the default word list
     string wordlist = "../data/wordlist";
     Hangman *hm; 
