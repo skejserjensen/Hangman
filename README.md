@@ -8,4 +8,4 @@ Word list:
     http://www.langmaker.com/wordlist/basiclex.htm
 
 ##Licens 
-As these programs are created as a learning experience and seldom changed after I get a better grip of the language constructs, is the programs displayed in this repository of very varying quality, but offed under the GPLv3 for anyone to use, a copy of this license is stored in the root of the repository.
+As these programs are created as a learning experience and seldom changed after I get a better grip of the language constructs, are the programs displayed in this repository of very varying quality, but offered under the GPLv3 for anyone to use, a copy of this license is stored in the root of the repository.
