@@ -93,8 +93,8 @@ char Hangman::getChar() {
 bool Hangman::isCharInWord(char letter)
 {
     bool answer = false;
-    int i, guessedlength;
     char input = tolower(letter);
+    unsigned int i, guessedlength;
     unsigned int stringLength = _currentWord.length();
 
     //Converts the string stream of guessed chars to a string to get its length

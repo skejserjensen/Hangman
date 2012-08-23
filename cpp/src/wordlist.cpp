@@ -35,9 +35,10 @@ WordList::WordList(string listPath)
     srand((unsigned)time(0));
 
     //Terminates the program if the word list cannot be opend
-    if(!openFile(listPath)) {
+    if(!openFile(listPath)) 
+    {
         cout << "ERROR: wordlist mssing, terminating" << endl;
-        exit;
+        exit(-1);
     }
 }
 
