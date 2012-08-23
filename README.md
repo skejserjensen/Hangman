@@ -1,5 +1,5 @@
 #Introduction
-A git repository of hangman games developed as a way to teach my self new programming languages.
+A git repository of hangman games developed as a way to teach my self new programming languages, and refreshing my memory of those I don't use that often. 
 
 ##Includes 
 The word list used in the programs are borrowed from the page below, where it was posted without any visible license attached. Please contact me if using it in these open source non profit applications violates whatever licenses it is under.
