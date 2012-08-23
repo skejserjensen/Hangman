@@ -1,9 +1,13 @@
 #include "wordlist.hpp"
 
-//---------------------------------------------------------------------------
-// Reads a random word from the word list and returns it to the caller
-//---------------------------------------------------------------------------
-string WordList::getRandomWord() {
+/** Using namespaces **/
+using std::cout;
+using std::endl;
+using std::string;
+
+/** Public methods **/
+string WordList::getRandomWord()
+{
     //Ensures that we do no read past the end of the file
     unsigned int counter;
     unsigned int randomNumber = rand() % _length;
@@ -12,7 +16,7 @@ string WordList::getRandomWord() {
 
     //Resets the file by clearing the flags, and resets the buffer
     _file.clear();
-    _file.seekg(0, ios::beg);
+    _file.seekg(0, std::ios::beg);
 
     //Reads through the word list until randomNumber is reached
     for(counter=0; counter < randomNumber; counter++)
@@ -24,10 +28,28 @@ string WordList::getRandomWord() {
     return randomWord; 
 }
 
-//---------------------------------------------------------------------------
-// Opens the word list and counts the number of lines it contains
-//---------------------------------------------------------------------------
-bool WordList::openFile(string listPath) { 
+/** Constructor **/
+WordList::WordList(string listPath)
+{
+    //Seeds the random number generator for random word fetching
+    srand((unsigned)time(0));
+
+    //Terminates the program if the word list cannot be opend
+    if(!openFile(listPath)) {
+        cout << "ERROR: wordlist mssing, terminating" << endl;
+        exit;
+    }
+}
+
+/** Destructor **/
+WordList::~WordList()
+{
+    _file.close();
+}
+
+/** Private methods **/
+bool WordList::openFile(string listPath)
+{ 
     //Opens the file which named is saved in listPath
     _file.open(listPath.c_str());
 
@@ -46,25 +68,4 @@ bool WordList::openFile(string listPath) {
     _length = counter;
 
     return true;
-}
-
-//---------------------------------------------------------------------------
-// Seeds the random number generator and open the word list
-//---------------------------------------------------------------------------
-WordList::WordList(string listPath) {
-    //Seeds the random number generator for random word fetching
-    srand((unsigned)time(0));
-
-    //Terminates the program if the word list cannot be opend
-    if(!openFile(listPath)) {
-        cout << "ERROR: wordlist mssing, terminating" << endl;
-        exit;
-    }
-}
-
-//---------------------------------------------------------------------------
-// Closes the file stream 
-//---------------------------------------------------------------------------
-WordList::~WordList() {
-    _file.close();
 }

@@ -6,34 +6,25 @@
 
 #include "wordlist.hpp"
 
-//---------------------------------------------------------------------------
-// Controls the actual game and uses the word list classes 
-//---------------------------------------------------------------------------
 class Hangman {
 
     public:
-        /** Public methods **/
         bool newGame();
 
-        /** Constructor **/
-        Hangman(string listPath);
-
-        /** Destructor **/
+        Hangman(std::string listPath);
         ~Hangman();
 
     private:
-        /** Private methods **/
         bool playGame();
         void stringToUnderscores();    
         char getChar();
         bool isCharInWord(char letter);
         void printStatus(unsigned int tries); 
 
-        /** Instance variables **/
         unsigned short _maxTries; 
-        string _currentWord;
-        string _currentQuess;
-        stringstream _guessedChars;
+        std::string _currentWord;
+        std::string _currentQuess;
+        std::stringstream _guessedChars;
 
         WordList *_wordList;
 };

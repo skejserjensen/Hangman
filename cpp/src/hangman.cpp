@@ -1,25 +1,45 @@
 #include "hangman.hpp"
 
-//---------------------------------------------------------------------------
-// Starts a new game and prints a message to the player based on the result
-//---------------------------------------------------------------------------
-bool Hangman::newGame() {
+/** Using namespaces **/
+using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
+using std::stringstream;
+
+/** Public methods **/
+bool Hangman::newGame() 
+{
     bool result = playGame();
 
-    if(result) {
+    if(result) 
+    {
         cout << "Congratulations, you guessed the word correctly." <<  endl;
         return true;
     }
-    else {
+    else 
+    {
         cout << "You did not guess \"" << _currentWord << "\" correctly, and have been hanged." << endl;
         return false;
     }
 }
 
-//---------------------------------------------------------------------------
-// Reads a new word from the list and counts the guesses made by the player
-//---------------------------------------------------------------------------
-bool Hangman::playGame() {
+/** Constructor **/
+Hangman::Hangman(string listPath)
+{
+    _maxTries = 10;
+    _wordList = new WordList(listPath);
+}
+
+/** Destructor **/
+Hangman::~Hangman()
+{
+    delete _wordList;
+}
+
+/** Private methods **/
+bool Hangman::playGame() 
+{
     int tries = 0;
     char guess;
 
@@ -29,7 +49,8 @@ bool Hangman::playGame() {
     printStatus(tries);
 
     //Asks for at new guess as long as the word has not being guessed or the user have tried enough times 
-    while (tries < _maxTries) {
+    while (tries < _maxTries) 
+    {
        guess = getChar(); 
 
        if(!isCharInWord(guess))
@@ -48,10 +69,8 @@ bool Hangman::playGame() {
         return false;
 }
 
-//---------------------------------------------------------------------------
-// Creates a string of underscores of the same length as the current word
-//---------------------------------------------------------------------------
-void Hangman::stringToUnderscores() {
+void Hangman::stringToUnderscores()
+{
     int i;
     int stringLength = _currentWord.length();
     stringstream buffer;
@@ -62,9 +81,6 @@ void Hangman::stringToUnderscores() {
     _currentQuess = buffer.str();
 }
 
-//---------------------------------------------------------------------------
-// Gets input from the user and returns only the first character
-//---------------------------------------------------------------------------
 char Hangman::getChar() {
     string input;
 
@@ -74,10 +90,8 @@ char Hangman::getChar() {
     return input[0];
 }
 
-//---------------------------------------------------------------------------
-// Checks if the given character is in the word, case is irrelevant
-//---------------------------------------------------------------------------
-bool Hangman::isCharInWord(char letter) {
+bool Hangman::isCharInWord(char letter)
+{
     bool answer = false;
     int i, guessedlength;
     char input = tolower(letter);
@@ -88,14 +102,17 @@ bool Hangman::isCharInWord(char letter) {
     guessedlength = guessed.length();
 
     //Checks if the given chars has already been already guessed 
-    for(i=0; i < guessedlength; i++) {
+    for(i=0; i < guessedlength; i++)
+    {
         if(guessed.at(i) == input)
             return true;
     }
 
     //Checks if the word contains instances of the guessed letter
-    for(i=0; i < stringLength; i++) {
-        if(_currentWord.at(i) == input || _currentWord.at(i) == toupper(input)) {
+    for(i=0; i < stringLength; i++)
+    {
+        if(_currentWord.at(i) == input || _currentWord.at(i) == toupper(input))
+        {
             answer = true;
             _currentQuess.at(i) = _currentWord.at(i);
         }
@@ -107,10 +124,8 @@ bool Hangman::isCharInWord(char letter) {
     return answer;
 }
 
-//---------------------------------------------------------------------------
-// Prints the console output based on how many letters have been guessed
-//---------------------------------------------------------------------------
-void Hangman::printStatus(unsigned int tries) {
+void Hangman::printStatus(unsigned int tries)
+{
     cout << "Word: " << _currentQuess << endl;
     cout << "Guessed: " << _guessedChars.str() << endl << endl;
 
@@ -169,20 +184,3 @@ void Hangman::printStatus(unsigned int tries) {
             break;
     }
 }
-
-//---------------------------------------------------------------------------
-// Sets the maximum false guesses allowed and loads the word list 
-//---------------------------------------------------------------------------
-Hangman::Hangman(string listPath) {
-    _maxTries = 10;
-    _wordList = new WordList(listPath);
-}
-
-//---------------------------------------------------------------------------
-// Deletes the word list object 
-//---------------------------------------------------------------------------
-Hangman::~Hangman() {
-    delete _wordList;
-}
-
-

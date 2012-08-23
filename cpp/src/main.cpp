@@ -3,12 +3,10 @@
 
 #include "hangman.hpp"
 
-//---------------------------------------------------------------------------
-// Checks if any command line parameters have been given, starts the game
-//---------------------------------------------------------------------------
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
     //Placement of the default word list
-    string wordlist = "../data/wordlist";
+    std::string wordlist = "../data/wordlist";
     Hangman *hm; 
    
     //Uses the word given as a command line argument

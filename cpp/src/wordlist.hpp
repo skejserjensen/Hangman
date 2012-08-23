@@ -7,30 +7,18 @@
 
 #include <cstdlib>
 
-//TODO: Should be a collection of using std:: statements
-using namespace std;
-
-//---------------------------------------------------------------------------
-// File handler for the word list and methods to extract words from it
-//---------------------------------------------------------------------------
 class WordList {
 
     public:
-        /** Public methods **/
-        string getRandomWord();
+        std::string getRandomWord();
 
-        /** Constructor **/
-        WordList(string listPath);
-
-        /** Destructor **/
+        WordList(std::string listPath);
         ~WordList();
 
     private:
-        /** Private methods **/
-        bool openFile(string listPath);
+        bool openFile(std::string listPath);
 
-        /** Instance variables **/
-        ifstream _file;
+        std::ifstream _file;
         unsigned int _length;
 };
 #endif
