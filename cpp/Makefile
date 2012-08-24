@@ -1,6 +1,6 @@
 #Variables
 CXX= g++
-CPPFLAGS= -O3 -Wall -c -o
+CPPFLAGS= -O3 -std=c++11 -Wall -c -o
 OBJ= hangman.o wordlist.o
 
 #Target
