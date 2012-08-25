@@ -39,7 +39,10 @@ int playGame(char* randomWord, unsigned int tries)
         wordInUnderscores[counter] = '_';
 
     //Sets the last index of the new string to the null terminator
-    wordInUnderscores[counter-1] = '\0';
+    wordInUnderscores[counter] = '\0';
+
+    //Prints the status in the beginning of the game, where the counter is 0
+    printStatus(0, wordInUnderscores, guessedChars);
 
     //Asks the user for guesses and checks if the letters are in the string
     char guess;
@@ -66,6 +69,7 @@ int playGame(char* randomWord, unsigned int tries)
 
 char static getCharFromUser()
 {
+    printf("Please enter your next guess: ");
     char guess = getchar();
 
     //Flushes the input buffer, so left over chars are not read on repeated calls
