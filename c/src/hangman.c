@@ -45,7 +45,9 @@ int playGame(char* randomWord, unsigned int tries)
     char guess;
     for(counter = 0; counter <= tries; counter++)
     {
-        guess = getCharFromUser();
+        //Ensures that all guesses are starting as lower case letters
+        guess = tolower( getCharFromUser() );
+        
         isCharInWord(guess, randomWord, wordInUnderscores, stringLength);
         addGuessedChars(guess, guessedChars);
 
@@ -73,19 +75,20 @@ char static getCharFromUser()
 
 int static isCharInWord(char guess, char* randomWord, char* wordInUnderscores, unsigned int wordLength)
 {
-   unsigned int counter;
-   unsigned int wasInWord = 0;
+    unsigned int counter;
+    unsigned int wasInWord = 0;
 
-  for(counter = 0; counter < wordLength; counter++)
-  {
-      if(randomWord[counter] == guess)
-      {
-          wasInWord = 1;
-          wordInUnderscores[counter] = guess;
-      }
-  }
+    for(counter = 0; counter < wordLength; counter++)
+    {
+        //Guess is written as lower case to the user as most letters in the word is lowercase but checks both
+        if((randomWord[counter] == guess) || (randomWord[counter] == toupper(guess)))
+        {
+            wasInWord = 1;
+            wordInUnderscores[counter] = guess;
+        }
+    }
 
-  return wasInWord;
+    return wasInWord;
 }
 
 void static addGuessedChars(char guess, char* guessedChars)
@@ -132,9 +135,9 @@ void static printStatus(unsigned int guesses, char* currentGuess, char* guessedC
             printf("________________\n\n");
             break;
         case 4:
-           printf("  |--         \n");
-           printf("  |\n  |\n  |\n  |\n  |\n  |\n");
-           printf("________________\n\n");
+            printf("  |--         \n");
+            printf("  |\n  |\n  |\n  |\n  |\n  |\n");
+            printf("________________\n\n");
             break;
         case 5:
             printf("  |------         \n");
