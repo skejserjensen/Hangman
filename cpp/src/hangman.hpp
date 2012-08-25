@@ -9,7 +9,7 @@
 class Hangman {
 
     public:
-        bool newGame();
+        bool startGame();
 
         Hangman(std::string listPath);
         ~Hangman();
@@ -19,9 +19,9 @@ class Hangman {
         void stringToUnderscores();    
         char getChar();
         bool isCharInWord(char letter);
-        void printStatus(unsigned int tries); 
+        void printStatus(unsigned int faults); 
 
-        unsigned short _maxTries; 
+        unsigned short _maxFaults; 
         std::string _currentWord;
         std::string _currentQuess;
         std::stringstream _guessedChars;

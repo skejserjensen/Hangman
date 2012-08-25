@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "hangman.hpp"
 
@@ -7,18 +8,14 @@ int main(int argc, char* argv[])
 {
     //Placement of the default word list
     std::string wordlist = "../data/wordlist";
-    Hangman *hm; 
    
     //Uses the word given as a command line argument
     if(argc == 2)
         wordlist = argv[1];
 
-    //Start the game
-    hm = new Hangman(wordlist);
-    hm->newGame();
+    //Starts the game with the given wordlist
+    Hangman hangman(wordlist);
+    hangman.startGame();
         
-    //Deletion of hangman object 
-    delete hm;
-    
     return 0;
 }

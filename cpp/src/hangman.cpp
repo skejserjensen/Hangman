@@ -8,7 +8,7 @@ using std::string;
 using std::stringstream;
 
 /** Public methods **/
-bool Hangman::newGame() 
+bool Hangman::startGame() 
 {
     bool result = playGame();
 
@@ -27,7 +27,7 @@ bool Hangman::newGame()
 /** Constructor **/
 Hangman::Hangman(string listPath)
 {
-    _maxTries = 10;
+    _maxFaults = 10;
     _wordList = new WordList(listPath);
 }
 
@@ -40,30 +40,30 @@ Hangman::~Hangman()
 /** Private methods **/
 bool Hangman::playGame() 
 {
-    int tries = 0;
+    int faults = 0;
     char guess;
 
     //Gets a new word from the word list and convert it to underscores
     _currentWord = _wordList->getRandomWord();
     stringToUnderscores();
-    printStatus(tries);
+    printStatus(faults);
 
     //Asks for at new guess as long as the word has not being guessed or the user have tried enough times 
-    while (tries < _maxTries) 
+    while (faults < _maxFaults) 
     {
        guess = getChar(); 
 
        if(!isCharInWord(guess))
-           tries++;
+           faults++;
 
-       printStatus(tries);
+       printStatus(faults);
   
        if(_currentWord == _currentQuess)
            break;
     }
 
     //Return true if the word was guessed without using all the given guesses
-    if(tries < _maxTries)
+    if(faults < _maxFaults)
         return true;
     else
         return false;
@@ -94,27 +94,30 @@ bool Hangman::isCharInWord(char letter)
 {
     bool answer = false;
     char input = tolower(letter);
-    unsigned int i, guessedlength;
-    unsigned int stringLength = _currentWord.length();
-
+    unsigned int index, stringLength;
+        
     //Converts the string stream of guessed chars to a string to get its length
     string guessed = _guessedChars.str();
-    guessedlength = guessed.length();
 
     //Checks if the given chars has already been already guessed 
-    for(i=0; i < guessedlength; i++)
+    for(char& letter : guessed)
     {
-        if(guessed.at(i) == input)
+        //The letter have been guessed before no need to check again
+        if(letter == input)
             return true;
     }
 
-    //Checks if the word contains instances of the guessed letter
-    for(i=0; i < stringLength; i++)
+    //We need the length of the string so we can map correct quesses from the real word to the underscored version
+    stringLength = _currentWord.length();
+
+    //Checks if the word contains instances of the guessed letter, uses a counted loop as index is needed
+    for(index =0; index < stringLength; index++)
     {
-        if(_currentWord.at(i) == input || _currentWord.at(i) == toupper(input))
+        //The letter is allready converted to its lower case, so we more easily can check if it have been used
+        if(_currentWord.at(index) == input || _currentWord.at(index) == toupper(input))
         {
             answer = true;
-            _currentQuess.at(i) = _currentWord.at(i);
+            _currentQuess.at(index) = _currentWord.at(index);
         }
     }
 
@@ -124,14 +127,15 @@ bool Hangman::isCharInWord(char letter)
     return answer;
 }
 
-void Hangman::printStatus(unsigned int tries)
+void Hangman::printStatus(unsigned int faults)
 {
     cout << "Word: " << _currentQuess << endl;
     cout << "Guessed: " << _guessedChars.str() << endl << endl;
 
     cout << "The Gallow" << endl << endl;
 
-    switch(tries) {
+    //Prints a man getting hanged depeding on how many faults the player have
+    switch(faults) {
         case 0:
             cout << "\n\n\n\n\n\n   " << endl;
             break;
