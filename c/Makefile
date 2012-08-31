@@ -1,6 +1,6 @@
 #Variables
 CC= gcc
-CFLAGS= -O3 -Wall -Wno-unused-function -g -c -o
+CFLAGS= -O3 -Wall -Wno-unused-function -c -o
 OBJ= wordlist.o hangman.o
 
 #Target

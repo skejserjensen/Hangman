@@ -38,7 +38,7 @@ char* getRandomWord()
 
     //Read the line corresponds to randomLineNumber and return a pointer to it
     unsigned int lineCounter = 0;
-    while(fgets(randomWord, longestLine+1, wordList) != NULL)
+    while(fgets(randomWord, longestLine, wordList) != NULL)
     {
         if(lineCounter == randomLineNumber)
             break;

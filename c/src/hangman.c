@@ -101,7 +101,7 @@ void static addGuessedChars(char guess, char* guessedChars)
     static unsigned guessedCharsUsed = 0;
 
     //Realloc guessedChars if it has been filled; 
-    if(guessedCharsUsed < (guessedCharsLength-1))
+    if(guessedCharsUsed > (guessedCharsLength-3))
     {
         guessedCharsLength *= 1.5;
         guessedChars = realloc(guessedChars, (guessedCharsLength * sizeof(char)));
