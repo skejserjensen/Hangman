@@ -42,17 +42,19 @@ int playGame(char* randomWord, unsigned int tries)
     wordInUnderscores[counter] = '\0';
 
     //Prints the status in the beginning of the game, where the counter is 0
-    printStatus(0, wordInUnderscores, guessedChars);
+    printStatus(0, tries, wordInUnderscores, guessedChars);
 
     //Asks the user for guesses and checks if the letters are in the string
     char guess;
-    for(counter = 0; counter <= tries; counter++)
+    counter = 0;
+
+    while(counter < tries) 
     {
         //Ensures that all guesses are starting as lower case letters
         guess = tolower( getCharFromUser() );
         
-        isCharInWord(guess, randomWord, wordInUnderscores, stringLength);
-        addGuessedChars(guess, guessedChars);
+        if(!isCharInWord(guess, randomWord, wordInUnderscores, stringLength) && addGuessedChars(guess, guessedChars))
+            counter++;
 
         if(strncmp(randomWord, wordInUnderscores, stringLength) == 0)
         {
@@ -60,7 +62,7 @@ int playGame(char* randomWord, unsigned int tries)
             return 0;
         }
 
-        printStatus(counter, wordInUnderscores, guessedChars);
+        printStatus(counter, tries, wordInUnderscores, guessedChars);
     }
 
     free(guessedChars);
@@ -74,6 +76,7 @@ char static getCharFromUser()
 
     //Flushes the input buffer, so left over chars are not read on repeated calls
     while(getchar() != '\n');
+    printf("\n\n");
     return guess;
 }
 
@@ -95,10 +98,20 @@ int static isCharInWord(char guess, char* randomWord, char* wordInUnderscores, u
     return wasInWord;
 }
 
-void static addGuessedChars(char guess, char* guessedChars)
+int static addGuessedChars(char guess, char* guessedChars)
 {
     static unsigned guessedCharsLength = 25;
     static unsigned guessedCharsUsed = 0;
+
+    //Checks if the character has allready been added and retuns if it has 
+    int counter = 0;
+    while(guessedChars[counter] != '\0')
+    {
+        if(guessedChars[counter] == guess)
+            return 0;
+
+        counter++;
+    }
 
     //Realloc guessedChars if it has been filled; 
     if(guessedCharsUsed > (guessedCharsLength-3))
@@ -106,18 +119,21 @@ void static addGuessedChars(char guess, char* guessedChars)
         guessedCharsLength *= 1.5;
         guessedChars = realloc(guessedChars, (guessedCharsLength * sizeof(char)));
     }
-    printf("Guessed: %s\n\n", guessedChars);
 
     //Save the given guess and adds a space so it will be printed nicely
     guessedChars[guessedCharsUsed] = guess;
     guessedChars[guessedCharsUsed+1] = ' ';
     guessedChars[guessedCharsUsed+2] = '\0';
     guessedCharsUsed += 2;
+
+    //Returns true if the letter was correctly added to the list
+    return 1;
 }
 
-void static printStatus(unsigned int guesses, char* currentGuess, char* guessedChars)
+void static printStatus(unsigned int guesses, unsigned int maxTries, char* currentGuess, char* guessedChars)
 {
     printf("Word: %s\n", currentGuess);
+    printf("Tries: %d\n", (maxTries - guesses));
     printf("Guessed: %s\n\n", guessedChars);
 
     printf("The Gallow\n\n");
