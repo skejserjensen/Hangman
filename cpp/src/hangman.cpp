@@ -87,6 +87,8 @@ char Hangman::getChar() {
     cout << "Enter your next guess: ";
     cin >> input;
 
+    //Just a couple of newlines for better formating of the output
+    cout << endl << endl;
     return input[0];
 }
 
@@ -130,6 +132,7 @@ bool Hangman::isCharInWord(char letter)
 void Hangman::printStatus(unsigned int faults)
 {
     cout << "Word: " << _currentQuess << endl;
+    cout << "Tries: " << (_maxFaults - faults) << endl;
     cout << "Guessed: " << _guessedChars.str() << endl << endl;
 
     cout << "The Gallow" << endl << endl;
