@@ -19,9 +19,8 @@ class Hangman {
         void stringToUnderscores();    
         char getChar();
         bool isCharInWord(char letter);
-        void printStatus(unsigned int faults); 
+        void printStatus(unsigned int triesLeft); 
 
-        unsigned short _maxFaults; 
         std::string _currentWord;
         std::string _currentQuess;
         std::stringstream _guessedChars;

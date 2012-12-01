@@ -27,7 +27,6 @@ bool Hangman::startGame()
 /** Constructor **/
 Hangman::Hangman(string listPath)
 {
-    _maxFaults = 10;
     _wordList = new WordList(listPath);
 }
 
@@ -40,30 +39,30 @@ Hangman::~Hangman()
 /** Private methods **/
 bool Hangman::playGame() 
 {
-    int faults = 0;
+    int triesLeft = 10;
     char guess;
 
     //Gets a new word from the word list and convert it to underscores
     _currentWord = _wordList->getRandomWord();
     stringToUnderscores();
-    printStatus(faults);
+    printStatus(triesLeft);
 
     //Asks for at new guess as long as the word has not being guessed or the user have tried enough times 
-    while (faults < _maxFaults) 
+    while (triesLeft > 0) 
     {
        guess = getChar(); 
 
        if(!isCharInWord(guess))
-           faults++;
+           triesLeft--;
 
-       printStatus(faults);
+       printStatus(triesLeft);
   
        if(_currentWord == _currentQuess)
            break;
     }
 
     //Return true if the word was guessed without using all the given guesses
-    if(faults < _maxFaults)
+    if(triesLeft > 0)
         return true;
     else
         return false;
@@ -129,65 +128,48 @@ bool Hangman::isCharInWord(char letter)
     return answer;
 }
 
-void Hangman::printStatus(unsigned int faults)
+void Hangman::printStatus(unsigned int triesLeft)
 {
     cout << "Word: " << _currentQuess << endl;
-    cout << "Tries: " << (_maxFaults - faults) << endl;
-    cout << "Guessed: " << _guessedChars.str() << endl << endl;
+    cout << "Tries Left: " << triesLeft << endl;
+    cout << "Guessed Letters: " << _guessedChars.str() << endl << endl;
 
     cout << "The Gallow" << endl << endl;
 
     //Prints a man getting hanged depeding on how many faults the player have
-    switch(faults) {
-        case 0:
+    switch(triesLeft) {
+        case 10:
             cout << "\n\n\n\n\n\n   " << endl;
             break;
-        case 1:
-            cout << "\n\n\n\n\n   " << endl;
-            cout << "_______________\n" << endl;
-            break;
-        case 2:
-            cout << "\n\n\n  |\n  |\n  |" << endl;
-            cout << "________________\n" << endl;
-            break;
-        case 3:
-            cout << "  |\n  |\n  |\n  |\n  |\n  |" << endl;
-            cout << "________________\n" << endl;
-            break;
-        case 4:
-            cout << "  |--         "  << endl;
-            cout << "  |\n  |\n  |\n  |\n  |\n  |" << endl;
-            cout << "________________\n" << endl;
-            break;
-        case 5:
-            cout << "  |------         " << endl;
-            cout << "  |\n  |\n  |\n  |\n  |\n  |" << endl;
-            cout << "________________\n" << endl;
-            break;
-        case 6:
-            cout << "  |------         " << endl;
-            cout << "  |     |\n  |\n  |\n  |\n  |\n  |" << endl;    
-            cout << "________________\n" << endl;
-            break;
-        case 7:
-            cout << "  |------         " << endl;
-            cout << "  |     |\n  |     0\n  |\n  |\n  |\n  |" << endl;    
-            cout << "________________\n" << endl;
+        case 9:
+            cout << "\n\n\n\n\n   \n_______________\n" << endl;
             break;
         case 8:
-            cout << "  |------         " << endl;                    
-            cout << "  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |" << endl;
-            cout << "________________\n" << endl;                
+            cout << "\n\n\n  |\n  |\n  |\n________________\n" << endl;
             break;
-        case 9:
-            cout << "  |------         " << endl;                    
-            cout << "  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |" << endl;
-            cout << "________________\n" << endl;                
+        case 7:
+            cout << "  |\n  |\n  |\n  |\n  |\n  |\n________________\n" << endl;
             break;
-        case 10:
-            cout << "  |------         " << endl;                    
-            cout << "  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |" << endl;
-            cout << "________________\n" << endl;                
+        case 6:
+            cout << "  |--         \n  |\n  |\n  |\n  |\n  |\n  |\n________________\n"  << endl;
+            break;
+        case 5:
+            cout << "  |------         \n  |\n  |\n  |\n  |\n  |\n  |\n________________\n" << endl;
+            break;
+        case 4:
+            cout << "  |------         \n  |     |\n  |\n  |\n  |\n  |\n  |\n________________\n" << endl;
+            break;
+        case 3:
+            cout << "  |------         \n  |     |\n  |     0\n  |\n  |\n  |\n  |\n________________\n" << endl;
+            break;
+        case 2:
+            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n________________\n" << endl;                    
+            break;
+        case 1:
+            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n________________\n" << endl;                    
+            break;
+        case 0:
+            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n" << endl;                    
             break;
     }
 }

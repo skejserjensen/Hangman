@@ -28,9 +28,6 @@ class Hangman
      */
     function __construct($wordListPath)
     {
-        //Sets the maximum number of times the player can guess wrong
-        $this->maxFaults = 10;
-
         //Creates a word list class, for a handle to the word list
         $this->wordList = new WordList($wordListPath);
     }
@@ -41,7 +38,7 @@ class Hangman
      **/
     private function playGame()
     {
-        $faults = 0;
+        $triesLeft = 10;
 
         //Gets a new word from the word list
         $this->currentWord = $this->wordList->getRandomWord();
@@ -52,24 +49,24 @@ class Hangman
             $this->currentGuess .= '_';
 
         //Prints the length of the word to be guessed and a threathing gallow
-        $this->printStatus($faults);
+        $this->printStatus($triesLeft);
 
         //Asks for at new guess as long as the word has not being guessed or the user have tried enough times 
-        while ($faults < $this->maxFaults) 
+        while ($triesLeft > 0) 
         {
             $guess = $this->getChar(); 
 
             if(!$this->isCharInWord($guess))
-                $faults++;
+                $triesLeft--;
 
-            $this->printStatus($faults);
+            $this->printStatus($triesLeft);
 
             if($this->currentWord === $this->currentGuess)
                 break;
         }
 
         //Return true if the word was guessed without using all the given guesses
-        if($faults < $this->maxFaults)
+        if($triesLeft > 0)
             return true;
         else
             return false;
@@ -133,65 +130,48 @@ class Hangman
     /**
      * Prints the users current status in the game to the screen 
      **/
-    private function printStatus($faults)
+    private function printStatus($triesLeft)
     {
         echo "Word: {$this->currentGuess}\n";
-        echo "Tries: " . ($this->maxFaults-$faults) . "\n";
-        echo "Guessed: {$this->guessedChars}\n\n";
+        echo "Tries Left: {$triesLeft}\n";
+        echo "Guessed Letters: {$this->guessedChars}\n\n";
 
         echo "The Gallow\n\n";
 
-        //Prints a man/women getting hanged depeding on how many faults the player have
-        switch($faults) {
-        case 0:
+        //Prints a man/women getting hanged depeding on how many tries the player have left
+        switch($triesLeft) {
+        case 10:
             echo "\n\n\n\n\n\n   \n";
             break;
-        case 1:
-            echo "\n\n\n\n\n   \n";
-            echo "_______________\n\n";
-            break;
-        case 2:
-            echo "\n\n\n  |\n  |\n  |\n";
-            echo "________________\n\n"; 
-            break;
-        case 3:
-            echo "  |\n  |\n  |\n  |\n  |\n  |\n";
-            echo "________________\n\n";
-            break;
-        case 4:
-            echo "  |--         \n";
-            echo "  |\n  |\n  |\n  |\n  |\n  |\n";
-            echo "________________\n\n";
-            break;
-        case 5:
-            echo "  |------         \n";
-            echo "  |\n  |\n  |\n  |\n  |\n  |\n";
-            echo "________________\n\n";
-            break;
-        case 6:
-            echo "  |------         \n";
-            echo "  |     |\n  |\n  |\n  |\n  |\n  |\n";
-            echo "________________\n\n";
-            break;
-        case 7:
-            echo "  |------         \n";
-            echo "  |     |\n  |     0\n  |\n  |\n  |\n  |\n";
-            echo "________________\n\n";
+        case 9:
+            echo "\n\n\n\n\n   \n_______________\n\n";
             break;
         case 8:
-            echo "  |------         \n";
-            echo "  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n";
-            echo "________________\n\n";
+            echo "\n\n\n  |\n  |\n  |\n________________\n\n";
             break;
-        case 9:
-            echo "  |------         \n";
-            echo "  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n";
-            echo "________________\n\n"; 
+        case 7:
+            echo "  |\n  |\n  |\n  |\n  |\n  |\n________________\n\n";
             break;
-        case 10:
-            echo  "  |------         \n";
-            echo  "  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n";
-            echo  "________________\n\n";
+        case 6:
+            echo "  |--         \n  |\n  |\n  |\n  |\n  |\n  |\n________________\n\n";
+            break;
+        case 5:
+            echo "  |------         \n  |\n  |\n  |\n  |\n  |\n  |\n________________\n\n";
+            break;
+        case 4:
+            echo "  |------         \n  |     |\n  |\n  |\n  |\n  |\n  |\n________________\n\n";
+            break;
+        case 3:
+            echo "  |------         \n  |     |\n  |     0\n  |\n  |\n  |\n  |\n________________\n\n";
+            break;
+        case 2:
+            echo "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n________________\n\n";
+            break;
+        case 1:
+            echo "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n________________\n\n";
+            break;
+        case 0:
+            echo  "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n\n";
             break;
         }
     }
@@ -200,7 +180,7 @@ class Hangman
     /**
      * Private member variables
      */
-    private $maxFaults;
+    private $maxTries;
     private $currentWord;
     private $currentGuess;
     private $guessedChars;

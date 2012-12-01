@@ -24,7 +24,7 @@ int startGame()
 }
 
 /** Private methods **/
-int playGame(char* randomWord, unsigned int tries)
+int static playGame(char* randomWord, unsigned int triesLeft)
 {
     unsigned int counter;
     unsigned int stringLength = strlen(randomWord);
@@ -42,19 +42,18 @@ int playGame(char* randomWord, unsigned int tries)
     wordInUnderscores[counter] = '\0';
 
     //Prints the status in the beginning of the game, where the counter is 0
-    printStatus(0, tries, wordInUnderscores, guessedChars);
+    printStatus(triesLeft, wordInUnderscores, guessedChars);
 
     //Asks the user for guesses and checks if the letters are in the string
     char guess;
-    counter = 0;
 
-    while(counter < tries) 
+    while(triesLeft > 0) 
     {
         //Ensures that all guesses are starting as lower case letters
         guess = tolower( getCharFromUser() );
         
         if(!isCharInWord(guess, randomWord, wordInUnderscores, stringLength) && addGuessedChars(guess, guessedChars))
-            counter++;
+            triesLeft--;
 
         if(strncmp(randomWord, wordInUnderscores, stringLength) == 0)
         {
@@ -62,7 +61,7 @@ int playGame(char* randomWord, unsigned int tries)
             return 0;
         }
 
-        printStatus(counter, tries, wordInUnderscores, guessedChars);
+        printStatus(triesLeft, wordInUnderscores, guessedChars);
     }
 
     free(guessedChars);
@@ -130,64 +129,47 @@ int static addGuessedChars(char guess, char* guessedChars)
     return 1;
 }
 
-void static printStatus(unsigned int guesses, unsigned int maxTries, char* currentGuess, char* guessedChars)
+void static printStatus(unsigned int guessesLeft, char* currentGuess, char* guessedChars)
 {
     printf("Word: %s\n", currentGuess);
-    printf("Tries: %d\n", (maxTries - guesses));
-    printf("Guessed: %s\n\n", guessedChars);
+    printf("Tries Left: %d\n", guessesLeft);
+    printf("Guessed Letters: %s\n\n", guessedChars);
 
     printf("The Gallow\n\n");
 
-    switch(guesses) {
-        case 0:
+    switch(guessesLeft) {
+        case 10:
             printf("\n\n\n\n\n\n\n");
             break;
-        case 1:
-            printf("\n\n\n\n\n\n");
-            printf("_______________\n\n");
-            break;
-        case 2:
-            printf("\n\n\n  |\n  |\n  |\n");
-            printf("________________\n\n");
-            break;
-        case 3:
-            printf("  |\n  |\n  |\n  |\n  |\n  |\n");
-            printf("________________\n\n");
-            break;
-        case 4:
-            printf("  |--         \n");
-            printf("  |\n  |\n  |\n  |\n  |\n  |\n");
-            printf("________________\n\n");
-            break;
-        case 5:
-            printf("  |------         \n");
-            printf("  |\n  |\n  |\n  |\n  |\n  |\n");
-            printf("________________\n\n");
-            break;
-        case 6:
-            printf("  |------         \n");
-            printf("  |     |\n  |\n  |\n  |\n  |\n  |\n");
-            printf("________________\n\n");
-            break;
-        case 7:
-            printf("  |------         \n");
-            printf("  |     |\n  |     0\n  |\n  |\n  |\n  |\n");
-            printf("________________\n\n");
+        case 9:
+            printf("\n\n\n\n\n   \n_______________\n\n");
             break;
         case 8:
-            printf("  |------         \n");
-            printf("  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n");
-            printf("________________\n\n");
+            printf("\n\n\n  |\n  |\n  |\n________________\n\n");
             break;
-        case 9:
-            printf("  |------         \n");
-            printf("  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n");
-            printf("________________\n\n");
+        case 7:
+            printf("  |\n  |\n  |\n  |\n  |\n  |\n________________\n\n");
             break;
-        case 10:
-            printf("  |------         \n");
-            printf("  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n");
-            printf("________________\n\n");
+        case 6:
+            printf("  |--         \n  |\n  |\n  |\n  |\n  |\n  |\n________________\n\n");
+            break;
+        case 5:
+            printf("  |------         \n  |\n  |\n  |\n  |\n  |\n  |\n________________\n\n");
+            break;
+        case 4:
+            printf("  |------         \n  |     |\n  |\n  |\n  |\n  |\n  |\n________________\n\n");
+            break;
+        case 3:
+            printf("  |------         \n  |     |\n  |     0\n  |\n  |\n  |\n  |\n________________\n\n");
+            break;
+        case 2:
+            printf("  |------         \n  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n________________\n\n");
+            break;
+        case 1:
+            printf("  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n________________\n\n");
+            break;
+        case 0:
+            printf("  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n\n");
             break;
     }
 }

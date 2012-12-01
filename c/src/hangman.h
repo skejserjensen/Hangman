@@ -11,10 +11,10 @@
 int startGame();
 
 /** Private methods **/
-int static playGame(char* randomWord, unsigned int tries);
+int static playGame(char* randomWord, unsigned int triesLeft);
 char static getCharFromUser();
 int static isCharInWord(char guess, char *randomWord, char *wordInUnderscores, unsigned int wordLength);
 int static addGuessedChars(char guess, char* guessedChars);
-void static printStatus(unsigned int guesses, unsigned int maxTries, char *currentGuess, char *guessedChars);
+void static printStatus(unsigned int guessesLeft, char *currentGuess, char *guessedChars);
 
 #endif /* end of include guard: HANGMAN_H */
