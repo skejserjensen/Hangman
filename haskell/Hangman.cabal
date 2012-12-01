@@ -1,0 +1,16 @@
+name:                Hangman
+version:             0.1.0.0
+synopsis:            A small hangman game written in Haskell by a beginner to the language
+homepage:            https://github.com/Harmster/Hangman
+license:             GPL-3
+license-file:        ../LICENSE
+author:              Søren Kejser Jensen
+maintainer:          harmster.skj@gmail.com
+category:            Game
+build-type:          Simple
+cabal-version:       >=1.8
+
+executable Hangman
+  build-depends:       base ==4.6.*, MonadRandom ==0.1.*
+  main-is:             Main.hs
+  hs-source-dirs:      src
