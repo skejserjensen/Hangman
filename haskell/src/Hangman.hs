@@ -48,7 +48,7 @@ getGuess :: IO Char
 getGuess = do
     putStr "Please enter your next guess: "
     hFlush stdout                                  
-    getLine >>= (\input -> return (last input))
+    getLine >>= (\input -> return (head input))
 
 updateGuess :: Char -> String -> String -> String
 updateGuess _ _ [] = []

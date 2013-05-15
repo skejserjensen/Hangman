@@ -8,5 +8,4 @@ main = getArgs >>= parseArguments >>= startGame
 -- otherwise we just use the internal word list. 
 parseArguments :: [String] -> IO String
 parseArguments [] = return "../data/wordlist"
-parseArguments (_:_:_) = return "../data/wordlist"
 parseArguments (arg:_) = return arg
