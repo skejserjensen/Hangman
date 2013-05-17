@@ -25,10 +25,8 @@ wordToUnderscore :: String -> String
 wordToUnderscore word = map (\char -> '_') word 
 
 playGame :: GData -> IO GData
-playGame (GData randomWord currentGuess usedLetters 0) = do
-        let gameResult = (GData randomWord currentGuess usedLetters 0)
-        printStatus gameResult
-        return gameResult
+playGame (GData randomWord currentGuess usedLetters 0) = printStatus gameResult >> return gameResult
+     where gameResult = (GData randomWord currentGuess usedLetters 0)
 playGame (GData randomWord currentGuess usedLetters guessesLeft) = do
         printStatus (GData randomWord currentGuess usedLetters guessesLeft)
         guess <- getGuess
@@ -38,17 +36,14 @@ playGame (GData randomWord currentGuess usedLetters guessesLeft) = do
         -- Checks if the player have guessed the word correctly
         if (updatedCurrentGuess == randomWord) 
             then return (GData randomWord currentGuess usedLetters guessesLeft)
-            -- Checks if the player have used a guess
+            -- Checks if the player have used a guess or the random word contains the letter of if it is already tried
             else if ((elem guess randomWord) || (elem guess usedLetters))
                 then playGame (GData randomWord updatedCurrentGuess updatedUsedLetters guessesLeft)
                 else playGame (GData randomWord updatedCurrentGuess updatedUsedLetters (guessesLeft-1))
 
 -- We read an entire line and then extracts the last charecter, to prevent left over chars in the buffer
 getGuess :: IO Char
-getGuess = do
-    putStr "Please enter your next guess: "
-    hFlush stdout                                  
-    getLine >>= (\input -> return (head input))
+getGuess = putStr "Please enter your next guess: " >> hFlush stdout >> (getLine >>= (\input -> return (head input)))
 
 updateGuess :: Char -> String -> String -> String
 updateGuess _ _ [] = []
@@ -61,7 +56,7 @@ updateGuess guess (cg:cGuess) (rw:rWord)
 updateGuessed :: Char -> [Char] -> [Char]
 updateGuessed guess usedLetters 
     | elem guess usedLetters = usedLetters 
-    | otherwise              = usedLetters ++ [' ', (toLower guess)]
+    | otherwise = usedLetters ++ [' ', (toLower guess)]
 
 printStatus :: GData -> IO ()
 printStatus (GData randomWord currentGuess usedLetters guessesLeft) = do
