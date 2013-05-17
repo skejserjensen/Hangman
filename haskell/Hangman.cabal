@@ -11,6 +11,6 @@ build-type:          Simple
 cabal-version:       >=1.8
 
 executable Hangman
-  build-depends:       base ==4.6.*, MonadRandom ==0.1.*
+  build-depends:       base, random
   main-is:             Main.hs
   hs-source-dirs:      src
