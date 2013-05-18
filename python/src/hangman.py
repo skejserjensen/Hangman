@@ -3,9 +3,10 @@
 ##Local Import
 import wordlist
 
+
 class Hangman:
     """
-    Methods for playing a game of hangman, uses the word list class to 
+    Methods for playing a game of hangman, uses the word list class to
     retrieve words from the word list
     """
 
@@ -16,16 +17,14 @@ class Hangman:
         else:
             print("You did not guess \"" + self.__random_word + "\" correctly, and have been hanged.")
 
-
     ##Constructor
-    def __init__ (self, word_List_Path):
+    def __init__(self, word_List_Path):
         """Creates a word list so random words can be requested"""
 
         ##Instance Variables
-        self.__random_word = "" 
-        self.__guessed_chars = "" 
+        self.__random_word = ""
+        self.__guessed_chars = ""
         self.__word_list = wordlist.WordList(word_List_Path)
-
 
     ##Private Methods
     def __play_game(self, tries):
@@ -33,7 +32,7 @@ class Hangman:
         self.__tries_left = tries
         self.__random_word = self.__word_list.get_random_word()
         self.__current_guess = list('_' * len(self.__random_word))
-        
+
         #Prints the beginning status of the game
         while (self.__tries_left > 0):
             guess = self.__get_char()
@@ -53,8 +52,8 @@ class Hangman:
         user_input = input("Enter your next guess: ").strip()
 
         #A couple of newline creates some space between the result of each guess
-        print("\n");
-        return user_input[0];
+        print("\n")
+        return user_input[0]
 
     def __is_char_in_word(self, guess):
         """Checks if the guess is a letter in the word, or have been guessed before"""
@@ -79,10 +78,8 @@ class Hangman:
         #Adds the guessed character to the guessed characters string
         self.__guessed_chars = self.__guessed_chars + guess_in_lower + " "
 
-        return result;
+        return result
 
-
- 
     def __print_status(self):
         """Prints a fancy gallow to scare the user when he guesses wrong"""
         print("Word: " + ''.join(self.__current_guess))
@@ -93,7 +90,7 @@ class Hangman:
 
         #Prints a man/women getting hanged depeding on how many tries the player have left
         if(self.__tries_left == 10):
-            print( "\n\n\n\n\n\n   ")
+            print("\n\n\n\n\n\n   ")
         elif(self.__tries_left == 9):
             print("\n\n\n\n\n   \n_______________\n")
         elif(self.__tries_left == 8):

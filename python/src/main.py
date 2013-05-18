@@ -14,4 +14,3 @@ else:
 
 hangman_game = hangman.Hangman(wordListPath)
 hangman_game.start_game(10)
-
