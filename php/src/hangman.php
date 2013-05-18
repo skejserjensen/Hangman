@@ -17,7 +17,7 @@ class Hangman
         $gameResult = $this->playGame(); 
 
         if($gameResult) 
-            echo "Congratulations, you guessed the word correctly.\n";
+            echo "Congratulations, you guessed the word \"{$this->currentWord}\" correctly.\n";
         else 
             echo "You did not guess \"{$this->currentWord}\" correctly, and have been hanged.\n";
     }

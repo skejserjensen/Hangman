@@ -13,7 +13,7 @@ class Hangman:
     ##Public Methods
     def start_game(self, tries):
         if self.__play_game(tries):
-            print("Congratulations, you guessed the word correctly.")
+            print("Congratulations, you guessed the word \"" + self.__random_word + "\" correctly.")
         else:
             print("You did not guess \"" + self.__random_word + "\" correctly, and have been hanged.")
 
@@ -34,6 +34,9 @@ class Hangman:
         self.__current_guess = list('_' * len(self.__random_word))
 
         #Prints the beginning status of the game
+        self.__print_status()
+
+        #Asks the user for a guess and checks it against the word until no more tries are left
         while (self.__tries_left > 0):
             guess = self.__get_char()
 

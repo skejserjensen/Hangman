@@ -14,7 +14,7 @@ bool Hangman::startGame(int tries)
 
     if(result) 
     {
-        cout << "Congratulations, you guessed the word correctly." <<  endl;
+        cout << "Congratulations, you guessed the word \"" << _currentWord << "\" correctly." <<  endl;
         return true;
     }
     else 

@@ -11,7 +11,7 @@ int startGame(const char *wordList, int tries)
 
     //Starts the game and prints a message based on the result
     if(playGame(randomWord, tries) == 0)
-        printf("Congratulations, you guessed the word correctly.\n");
+        printf("Congratulations, you guessed the word \"%s\" correctly.\n", randomWord);
     else
         printf("You did not guess \"%s\" correctly, and have been hanged.\n", randomWord);
 
