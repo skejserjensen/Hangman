@@ -8,10 +8,10 @@ int openWordList(const char *listPath)
 {
     wordList = fopen(listPath, "r");
 
-    if(!(wordList == NULL))
-        return 0;
-    else
+    if(wordList == NULL)
         return 1;
+    else
+        return 0;
 }
 
 char* getRandomWord()
@@ -54,10 +54,10 @@ char* getRandomWord()
 
 int closeWordList()
 {
-    if(wordList != NULL)
-        return fclose(wordList);
-    else
+    if(wordList == NULL)
         return 1;
+    else
+        return fclose(wordList);
 }
 
 /** Private methods **/
@@ -81,7 +81,7 @@ void static countLinesInWordList(unsigned int *longestLine, unsigned int *counte
             if(*longestLine < charsInLine)
                 *longestLine = charsInLine;
          
-            //The number of lines are counted as we need to now the boundaries of the 
+            //The number of lines are counted as we need to know the boundaries of the 
             //document when we pick a random word to guess.
             (*countedLines)++;
             charsInLine = 0;

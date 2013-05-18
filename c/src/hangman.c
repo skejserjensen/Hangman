@@ -1,20 +1,19 @@
 #include "hangman.h"
 
 /** Public functions **/
-int startGame()
+int startGame(const char *wordList, int tries)
 {
-    //Creates a filepointer to the wordlist an checks if it can be opened
-    openWordList("../data/wordlist"); 
+    //Creates a file pointer to the wordlist an checks if it can be opened
+    openWordList(wordList); 
 
     //Gets a random word from the wordlist
     char* randomWord = getRandomWord();
 
     //Starts the game and prints a message based on the result
-    if(playGame(randomWord, 10) == 0)
+    if(playGame(randomWord, tries) == 0)
         printf("Congratulations, you guessed the word correctly.\n");
     else
         printf("You did not guess \"%s\" correctly, and have been hanged.\n", randomWord);
-
 
     //Closes pointers and deletes used memory
     closeWordList();
@@ -29,7 +28,7 @@ int static playGame(char* randomWord, unsigned int triesLeft)
     unsigned int counter;
     unsigned int stringLength = strlen(randomWord);
 
-    //An array for all the characters that have been guessed
+    //An array for all the characters that have been guessed, can be reallocated doing the game 
     char *guessedChars = calloc(25, sizeof(char)); 
 
     //Make a new string of underscores to hold the half guessed word
@@ -45,12 +44,10 @@ int static playGame(char* randomWord, unsigned int triesLeft)
     printStatus(triesLeft, wordInUnderscores, guessedChars);
 
     //Asks the user for guesses and checks if the letters are in the string
-    char guess;
-
     while(triesLeft > 0) 
     {
         //Ensures that all guesses are starting as lower case letters
-        guess = tolower( getCharFromUser() );
+        char guess = getCharFromUser();
         
         if(!isCharInWord(guess, randomWord, wordInUnderscores, stringLength) && addGuessedChars(guess, guessedChars))
             triesLeft--;
@@ -76,7 +73,7 @@ char static getCharFromUser()
     //Flushes the input buffer, so left over chars are not read on repeated calls
     while(getchar() != '\n');
     printf("\n\n");
-    return guess;
+    return tolower(guess);
 }
 
 int static isCharInWord(char guess, char* randomWord, char* wordInUnderscores, unsigned int wordLength)
@@ -173,4 +170,3 @@ void static printStatus(unsigned int guessesLeft, char* currentGuess, char* gues
             break;
     }
 }
-

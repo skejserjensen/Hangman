@@ -8,7 +8,7 @@
 #include "wordlist.h"
 
 /** Public functions **/
-int startGame();
+int startGame(const char *wordList, int tries);
 
 /** Private methods **/
 int static playGame(char* randomWord, unsigned int triesLeft);
