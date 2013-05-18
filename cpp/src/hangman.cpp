@@ -8,9 +8,9 @@ using std::string;
 using std::stringstream;
 
 /** Public methods **/
-bool Hangman::startGame() 
+bool Hangman::startGame(int tries)
 {
-    bool result = playGame();
+    bool result = playGame(tries);
 
     if(result) 
     {
@@ -37,50 +37,31 @@ Hangman::~Hangman()
 }
 
 /** Private methods **/
-bool Hangman::playGame() 
+bool Hangman::playGame(int triesLeft) 
 {
-    int triesLeft = 10;
-    char guess;
-
     //Gets a new word from the word list and convert it to underscores
     _currentWord = _wordList->getRandomWord();
-    stringToUnderscores();
+    _currentGuess = string(_currentWord.length(), '_');
     printStatus(triesLeft);
 
-    //Asks for at new guess as long as the word has not being guessed or the user have tried enough times 
+    //Asks for at new guess as long as the word has not being guessed or the user have tried enough times
     while (triesLeft > 0) 
     {
-       guess = getChar(); 
+       char guess = getGuess();
 
        if(!isCharInWord(guess))
            triesLeft--;
 
        printStatus(triesLeft);
   
-       if(_currentWord == _currentQuess)
-           break;
+       if(_currentWord == _currentGuess)
+           return true;
     }
-
-    //Return true if the word was guessed without using all the given guesses
-    if(triesLeft > 0)
-        return true;
-    else
-        return false;
+    return false;
 }
 
-void Hangman::stringToUnderscores()
+char Hangman::getGuess() 
 {
-    int i;
-    int stringLength = _currentWord.length();
-    stringstream buffer;
-
-    for(i=0; i < stringLength; i++)
-        buffer << '_';
-
-    _currentQuess = buffer.str();
-}
-
-char Hangman::getChar() {
     string input;
 
     cout << "Enter your next guess: ";
@@ -91,34 +72,27 @@ char Hangman::getChar() {
     return input[0];
 }
 
-bool Hangman::isCharInWord(char letter)
+bool Hangman::isCharInWord(char guess)
 {
     bool answer = false;
-    char input = tolower(letter);
+    char input = tolower(guess);
     unsigned int index, stringLength;
         
-    //Converts the string stream of guessed chars to a string to get its length
-    string guessed = _guessedChars.str();
-
     //Checks if the given chars has already been already guessed 
-    for(char& letter : guessed)
-    {
-        //The letter have been guessed before no need to check again
-        if(letter == input)
-            return true;
-    }
+    if(!string::npos == _guessedChars.str().find(guess))
+        return true;
 
-    //We need the length of the string so we can map correct quesses from the real word to the underscored version
+    //We need the length of the word so we can map correct guesses from the real word to the underscored version
     stringLength = _currentWord.length();
 
-    //Checks if the word contains instances of the guessed letter, uses a counted loop as index is needed
+    //Checks if the word contains instances of the guessed guess, uses a counted loop as index is needed
     for(index =0; index < stringLength; index++)
     {
-        //The letter is allready converted to its lower case, so we more easily can check if it have been used
+        //The guess is already converted to its lower case, so we more easily can check if it have been used
         if(_currentWord.at(index) == input || _currentWord.at(index) == toupper(input))
         {
             answer = true;
-            _currentQuess.at(index) = _currentWord.at(index);
+            _currentGuess.at(index) = _currentWord.at(index);
         }
     }
 
@@ -130,13 +104,13 @@ bool Hangman::isCharInWord(char letter)
 
 void Hangman::printStatus(unsigned int triesLeft)
 {
-    cout << "Word: " << _currentQuess << endl;
+    cout << "Word: " << _currentGuess << endl;
     cout << "Tries Left: " << triesLeft << endl;
     cout << "Guessed Letters: " << _guessedChars.str() << endl << endl;
 
     cout << "The Gallow" << endl << endl;
 
-    //Prints a man getting hanged depeding on how many faults the player have
+    //Prints a man getting hanged depending on how many faults the player have
     switch(triesLeft) {
         case 10:
             cout << "\n\n\n\n\n\n   " << endl;
@@ -163,13 +137,13 @@ void Hangman::printStatus(unsigned int triesLeft)
             cout << "  |------         \n  |     |\n  |     0\n  |\n  |\n  |\n  |\n________________\n" << endl;
             break;
         case 2:
-            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n________________\n" << endl;                    
+            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n________________\n" << endl;
             break;
         case 1:
-            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n________________\n" << endl;                    
+            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n________________\n" << endl;
             break;
         case 0:
-            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n" << endl;                    
+            cout << "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n" << endl;
             break;
     }
 }

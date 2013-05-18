@@ -62,11 +62,9 @@ bool WordList::openFile(string listPath)
     string shouldNotBeUsed;
 
     //Counts the number of lines contained in the word list
-    unsigned int counter = 0;
+    _length = 0;
     while(getline(_file, shouldNotBeUsed))
-        counter++;
-
-    _length = counter;
+        _length++;
 
     return true;
 }

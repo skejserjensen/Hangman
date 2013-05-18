@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 
     //Starts the game with the given wordlist
     Hangman hangman(wordlist);
-    hangman.startGame();
+    hangman.startGame(10);
         
     return 0;
 }
