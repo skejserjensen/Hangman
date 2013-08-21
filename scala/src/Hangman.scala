@@ -1,13 +1,13 @@
 class Hangman(wordListPath: String) {
  
   /* Package Methods */
-  def startGame(tries: Int): Unit = {
+  def startGame(): Unit = {
     //Grabs a new word from the word list and convert it to underscores
     val randomWord = this.wordList.getRandomWord
     val currentGuess = "_" * randomWord.size
    
     //It is much easiere to compare the result if everything is lowercase inside the game
-    if(playGame(randomWord.toLowerCase, currentGuess, "", tries))
+    if(playGame(randomWord.toLowerCase, currentGuess, "", 10))
         println("Congratulations, you guessed the word \"" + randomWord + "\" correctly.")
     else
         println("You did not guess \"" + randomWord + "\" correctly, and have been hanged.")

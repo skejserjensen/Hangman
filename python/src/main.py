@@ -13,4 +13,4 @@ else:
     wordListPath = "../data/wordlist"
 
 hangman_game = hangman.Hangman(wordListPath)
-hangman_game.start_game(10)
+hangman_game.start_game()

@@ -8,9 +8,9 @@ using std::string;
 using std::stringstream;
 
 /** Public methods **/
-bool Hangman::startGame(int tries)
+bool Hangman::startGame()
 {
-    bool result = playGame(tries);
+    bool result = playGame(10);
 
     if(result) 
     {

@@ -1,7 +1,7 @@
 #include "hangman.h"
 
 /** Public functions **/
-int startGame(const char *wordList, int tries)
+int startGame(const char *wordList)
 {
     //Creates a file pointer to the wordlist an checks if it can be opened
     openWordList(wordList); 
@@ -10,7 +10,7 @@ int startGame(const char *wordList, int tries)
     char* randomWord = getRandomWord();
 
     //Starts the game and prints a message based on the result
-    if(playGame(randomWord, tries) == 0)
+    if(playGame(randomWord, 10) == 0)
         printf("Congratulations, you guessed the word \"%s\" correctly.\n", randomWord);
     else
         printf("You did not guess \"%s\" correctly, and have been hanged.\n", randomWord);

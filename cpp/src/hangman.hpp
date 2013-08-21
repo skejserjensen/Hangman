@@ -9,7 +9,7 @@
 class Hangman {
 
     public:
-        bool startGame(int tries);
+        bool startGame();
 
         Hangman(std::string listPath);
         ~Hangman();

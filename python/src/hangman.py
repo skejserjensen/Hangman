@@ -11,8 +11,8 @@ class Hangman:
     """
 
     ##Public Methods
-    def start_game(self, tries):
-        if self.__play_game(tries):
+    def start_game(self):
+        if self.__play_game(10):
             print("Congratulations, you guessed the word \"" + self.__random_word + "\" correctly.")
         else:
             print("You did not guess \"" + self.__random_word + "\" correctly, and have been hanged.")
