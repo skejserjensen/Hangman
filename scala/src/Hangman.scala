@@ -15,7 +15,9 @@ class Hangman(wordListPath: String) {
 
   /* Private Methods */
   private def playGame(randomWord: String, currentGuess: String, guessedChars: String, tries: Int): Boolean = tries match {
-    case 0 => false
+    case 0 => 
+      printStatus(currentGuess, guessedChars, tries)
+      false
     case _ => {
       if(randomWord == currentGuess)
         return true
