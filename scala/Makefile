@@ -1,9 +1,7 @@
 SCALA = scalac
 SCALAFLAGS = -d bin
 
-all: compile	
-
-compile:
+all: 
 	@mkdir bin -p && $(SCALA) $(SCALAFLAGS) src/*.scala
 
 run:

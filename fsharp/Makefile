@@ -1,13 +1,8 @@
-SCALA = scalac
-SCALAFLAGS = -d bin
-
-all: compile	
-
-compile:
-	@fsharpc src/WordList.fs src/Hangman.fs src/Main.fs --out:Hangman.exe
+all: 
+	@fsharpc src/WordList.fs src/Hangman.fs src/Main.fs --out:hangman.exe
 
 run:
-	@mono Hangman.exe
+	@mono hangman.exe
 
 clean:
-	@rm -rf Hangman.exe
+	@rm -rf hangman.exe
