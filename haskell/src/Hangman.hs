@@ -43,7 +43,9 @@ playGame (GData randomWord currentGuess usedLetters guessesLeft) = do
 
 -- We read an entire line and then extracts the last charecter, to prevent left over chars in the buffer
 getGuess :: IO Char
-getGuess = putStr "Please enter your next guess: " >> hFlush stdout >> (getLine >>= (\input -> return (head input)))
+getGuess = putStr "Please enter your next guess: " >> hFlush stdout >> getLine >>= 
+    (\input -> if null input then getGuess else
+        if isAlpha $ head input then return $ head input else getGuess)
 
 updateGuess :: Char -> String -> String -> String
 updateGuess _ _ [] = []

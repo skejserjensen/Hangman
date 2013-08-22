@@ -4,6 +4,7 @@
 using std::cin;
 using std::cout;
 using std::endl;
+using std::flush;
 using std::string;
 using std::stringstream;
 
@@ -63,9 +64,13 @@ bool Hangman::playGame(int triesLeft)
 char Hangman::getGuess() 
 {
     string input;
-
-    cout << "Enter your next guess: ";
-    cin >> input;
+    
+    do
+    {
+        cout << "Enter your next guess: " << flush;
+        getline(cin, input);
+    }
+    while (!isalpha(input[0]));
 
     //Just a couple of newlines for better formating of the output
     cout << endl << endl;

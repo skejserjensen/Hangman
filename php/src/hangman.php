@@ -54,7 +54,9 @@ class Hangman
         //Asks for at new guess as long as the word has not being guessed or the user have tried enough times 
         while ($triesLeft > 0) 
         {
+            //Gets a guess from the user, and prints couple of newline that creates some space between the result of each guess
             $guess = $this->getChar(); 
+            echo "\n\n";
 
             if(!$this->isCharInWord($guess))
                 $triesLeft--;
@@ -71,7 +73,6 @@ class Hangman
         else
             return false;
 
-
         return false;
     }
 
@@ -80,13 +81,14 @@ class Hangman
      **/
     private function getChar()
     {
-        echo "Enter your next guess: ";
-
         //A string is read as reading a single char does not flush the input buffer of \n from the enter key
-        $input = trim(fgets(STDIN));
+        do
+        {
+            echo "Enter your next guess: ";
+            $input = trim(fgets(STDIN));
 
-        //A couple of newline creates some space between the result of each guess
-        echo "\n\n";
+        }
+        while(strlen($input) <= 0);
         return $input[0];
     }
 

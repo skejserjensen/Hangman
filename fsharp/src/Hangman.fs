@@ -23,6 +23,12 @@ module Hangman
         | 0 -> printfn "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n"
         | _ -> eprintfn "ERROR: internal error, invalid number of tries left."
 
+    //A string conversion to list, needed as strings cannot be zipped in this version of fsharp
+    let stringToList theString: char list = [for c in theString -> c]
+
+    //Created my own version of String.Contains as fsharp's version did not seem to accept chars as input
+    let stringContains theChar theString: bool = String.exists (fun c -> c = theChar) theString
+
     let rec buildUpdatedCurrentGuess guess (wordState: (char*char) list): string =
         match wordState with
         | [] -> ""
@@ -35,10 +41,6 @@ module Hangman
         if String.exists (fun c -> c = guess) guessedChars
         then guessedChars
         else guessedChars + Char.ToString guess + " "
-    
-    let stringToList theString: char list = [for c in theString -> c]
-
-    let stringContains theChar theString: bool = String.exists (fun c -> c = theChar) theString
 
     let rec playGame randomWord currentGuess guessedChars triesLeft: bool =
         match triesLeft with
@@ -51,12 +53,18 @@ module Hangman
             else
                 printStatus currentGuess guessedChars triesLeft
 
-                //Get guess from user, separate function created endless recursion using mono
-                printf "Enter your next guess: "
-                let guess = Char.ToLower (Console.ReadLine().[0])
+                //Gets a guess from user, and prints a newline for formatting
+                //A mutable variable is used, as a function containing ReadLine() runs endlessly on mono or becuase I made a mistake
+                let mutable guess = '0'
+                while not (Char.IsLetter guess) do
+                    printf "Enter your next guess: "
+                    let guessString = Console.ReadLine()
+                    if guessString.Length = 0
+                    then guess <- '0'
+                    else guess <- Char.ToLower guessString.[0]
                 printfn ""
-               
-                //Check guess is in word or already tried
+                               
+                //Check if the guess is in the random word, or if the user have already tried it
                 if stringContains guess randomWord
                 then 
                     let newCurrentGuess = buildUpdatedCurrentGuess guess (List.zip (stringToList randomWord) (stringToList currentGuess))

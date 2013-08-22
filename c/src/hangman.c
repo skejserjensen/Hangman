@@ -67,11 +67,13 @@ int static playGame(char* randomWord, unsigned int triesLeft)
 
 char static getCharFromUser()
 {
-    printf("Please enter your next guess: ");
 
     char guess;
     do
+    {
+        printf("Please enter your next guess: ");
         guess = getchar();
+    }
     while (!isalpha(guess));
 
     //Flushes the input buffer, so left over chars are not read on repeated calls

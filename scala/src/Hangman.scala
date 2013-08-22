@@ -41,9 +41,14 @@ class Hangman(wordListPath: String) {
   }
 
   private def getGuess(): Char = {
-    print("Enter your next guess: ")
-    try
-      readChar.toLower
+    try {
+        var guess = '0'
+        do {
+            print("Enter your next guess: ")
+            guess = readChar.toLower
+        } while (!guess.isLetter)
+        guess         
+    }
     catch {
       case ex: java.lang.StringIndexOutOfBoundsException => getGuess
     }

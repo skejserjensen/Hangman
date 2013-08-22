@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python3
 
 ##Local Import
 import wordlist
@@ -52,7 +52,10 @@ class Hangman:
 
     def __get_char(self):
         """Gets one char from the user as a guess"""
-        user_input = input("Enter your next guess: ").strip()
+        while True:
+            user_input = input("Enter your next guess: ").strip()
+            if len(user_input) > 0 and user_input[0].isalpha():
+                break
 
         #A couple of newline creates some space between the result of each guess
         print("\n")
