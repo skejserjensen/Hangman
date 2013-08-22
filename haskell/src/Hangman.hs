@@ -7,39 +7,31 @@ import WordList
 import Data.Char
 import System.IO
 
-data GData = GData  { randomWord :: String
-                    , currentGuess :: String
-                    , usedLetters :: [Char] 
-                    , guessesLeft :: Int
-                    } deriving (Show)
-
 startGame :: String -> IO ()
 startGame wordListPath = do 
-        word <- getRandomWord wordListPath
-        gameResult <- playGame (GData word (wordToUnderscore word) "" 10)
-        if (guessesLeft gameResult) > 0
-            then putStrLn ("You gussed the word '" ++ word ++ "' correctly")
-            else putStrLn ("You did not guess '" ++ word ++ "' correctly and are now hanged")
+        randomWord <- getRandomWord wordListPath
+        gameResult <- playGame randomWord (wordToUnderscore randomWord) "" 10
+        if gameResult
+            then putStrLn ("You gussed the word '" ++ randomWord ++ "' correctly")
+            else putStrLn ("You did not guess '" ++ randomWord ++ "' correctly and are now hanged")
 
 wordToUnderscore :: String -> String
-wordToUnderscore word = map (\char -> '_') word 
+wordToUnderscore randomWord = map (\char -> '_') randomWord 
 
-playGame :: GData -> IO GData
-playGame (GData randomWord currentGuess usedLetters 0) = printStatus gameResult >> return gameResult
-     where gameResult = (GData randomWord currentGuess usedLetters 0)
-playGame (GData randomWord currentGuess usedLetters guessesLeft) = do
-        printStatus (GData randomWord currentGuess usedLetters guessesLeft)
+playGame :: String -> String -> String -> Int -> IO Bool
+playGame randomWord currentGuess usedLetters 0 = printStatus randomWord currentGuess usedLetters 0 >> return False
+playGame randomWord currentGuess usedLetters guessesLeft = do
+        printStatus randomWord currentGuess usedLetters guessesLeft
         guess <- getGuess
         -- Computes new lists for the letters used and the current guess
         let updatedCurrentGuess = updateGuess guess currentGuess randomWord
         let updatedUsedLetters = updateGuessed guess usedLetters 
         -- Checks if the player have guessed the word correctly
-        if (updatedCurrentGuess == randomWord) 
-            then return (GData randomWord currentGuess usedLetters guessesLeft)
+        if (updatedCurrentGuess == randomWord) then return True
             -- Checks if the player have used a guess or the random word contains the letter of if it is already tried
             else if ((elem guess randomWord) || (elem guess usedLetters))
-                then playGame (GData randomWord updatedCurrentGuess updatedUsedLetters guessesLeft)
-                else playGame (GData randomWord updatedCurrentGuess updatedUsedLetters (guessesLeft-1))
+                then playGame randomWord updatedCurrentGuess updatedUsedLetters guessesLeft
+                else playGame randomWord updatedCurrentGuess updatedUsedLetters (guessesLeft-1)
 
 -- We read an entire line and then extracts the last charecter, to prevent left over chars in the buffer
 getGuess :: IO Char
@@ -60,8 +52,8 @@ updateGuessed guess usedLetters
     | elem guess usedLetters = usedLetters 
     | otherwise = usedLetters ++ [' ', (toLower guess)]
 
-printStatus :: GData -> IO ()
-printStatus (GData randomWord currentGuess usedLetters guessesLeft) = do
+printStatus :: String -> String -> String -> Int -> IO ()
+printStatus randomWord currentGuess usedLetters guessesLeft = do
         putStrLn ("\nWord: " ++ currentGuess)
         putStrLn ("Tries Left: " ++ (show guessesLeft))
         putStrLn ("Guessed Letters: " ++ usedLetters)
