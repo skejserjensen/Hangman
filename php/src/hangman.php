@@ -82,13 +82,17 @@ class Hangman
     private function getChar()
     {
         //A string is read as reading a single char does not flush the input buffer of \n from the enter key
+        //A nested "do while" is used, as combining the logic into one using either "&&" or "and" did not work reliably in php 5.5.3 on x86_64 Linux
         do
         {
-            echo "Enter your next guess: ";
-            $input = trim(fgets(STDIN));
-
+            do
+            {
+                echo "Enter your next guess: ";
+                $input = trim(fgets(STDIN));
+            }
+            while(strlen($input) <= 0);
         }
-        while(strlen($input) <= 0);
+        while(!ctype_alpha($input[0]));
         return $input[0];
     }
 
