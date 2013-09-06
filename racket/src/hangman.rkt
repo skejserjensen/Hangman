@@ -3,39 +3,37 @@
         (require "wordlist.rkt")
 
         (define (start-game word-list-path)
-          (let ([word (random-word word-list-path)])
-            (if (play-game (string-downcase word) (make-string (string-length word) #\_) "" 10)
-              (printf "Congratulations, you guessed the word \"~a\" correctly.\n" word)
-              (printf "You did not guess \"~a\" correctly, and have been hanged.\n" word))))
+          (let ([random-word (read-random-word word-list-path)])
+            (if (play-game (string-downcase random-word) (make-string (string-length random-word) #\_) "" 10)
+              (printf "Congratulations, you guessed the word \"~a\" correctly.\n" random-word)
+              (printf "You did not guess \"~a\" correctly, and have been hanged.\n" random-word))))
 
-        (define (play-game word current-guess guessed-chars tries-left)
+        (define (play-game random-word current-guess guessed-chars tries-left)
           (match tries-left
                  [0 (print-status current-guess guessed-chars tries-left) #f]
                  [else (print-status current-guess guessed-chars tries-left)
-                       (if (equal? current-guess word) #t
+                       (if (equal? current-guess random-word) #t
                          (let ([user-guess (guess)])
-                           (display "\n") ; Just a bit of formatting
-                           (if (contains user-guess word)
-                             (play-game word (update-current-guess user-guess (zip-strings word current-guess))
-                                        (update-guessed-chars user-guess guessed-chars) tries-left)
-                             (if (contains user-guess guessed-chars)
-                               (play-game word current-guess guessed-chars tries-left)
-                               (play-game word current-guess (update-guessed-chars user-guess guessed-chars) (- tries-left 1))))))]))
+                           (display "\n") ; Just formatting the output a bit
+                           (cond
+                             [(string-contains? user-guess random-word)
+                              (play-game random-word (update-current-guess user-guess (zip-strings random-word current-guess))
+                                         (update-guessed-chars user-guess guessed-chars) tries-left)]
+                             [(string-contains? user-guess guessed-chars) (play-game random-word current-guess guessed-chars tries-left)]
+                             [else (play-game random-word current-guess (update-guessed-chars user-guess guessed-chars) (- tries-left 1))])))]))
 
 
         (define (guess)
           (display "Enter your next guess: ")
-          (let ([user-guess-string (read-line)]) ; Read-line is used as read-char seems to leave return in the input buffer
+          (let ([user-guess-string (read-line)]) ; Read-line is used, as read-char seems to leave a newline from return in the input buffer
             (if (< 0 (string-length user-guess-string))
               (let ([user-guess (string-ref user-guess-string 0)])
                 (if (char-alphabetic? user-guess)(char-downcase user-guess)(guess)))
               (guess))))
 
-        (define (contains chr seq)
+        (define (string-contains? chr str)
           ; Member returns a pair if the list contained the element, so if we get a pair then list contained our element
-          (if (list? seq)
-            (pair? (member chr seq))
-            (pair? (member chr (string->list seq)))))
+          (pair? (member chr (string->list str))))
 
         (define (zip-strings str-one str-two)
           (map list (string->list str-one)(string->list str-two)))
@@ -47,7 +45,7 @@
                                    (append acc (list (second elem))))) empty zipped-word-current-guess)))
 
         (define (update-guessed-chars user-guess guessed-chars)
-          (if (contains user-guess guessed-chars) guessed-chars 
+          (if (string-contains? user-guess guessed-chars) guessed-chars 
             (string-append guessed-chars (string-append (string user-guess) " "))))
 
         (define (print-status current-guess guessed-chars tries-left)
@@ -66,5 +64,4 @@
                  [3 (display "  |------         \n  |     |\n  |     0\n  |\n  |\n  |\n  |\n________________\n\n")]
                  [2 (display "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n________________\n\n")]
                  [1 (display "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n________________\n\n")]
-                 [0 (display "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n\n")]
-                 [else (display "ERROR: internal error, invalid number of tries left.\n")])))
+                 [0 (display "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n\n")])))

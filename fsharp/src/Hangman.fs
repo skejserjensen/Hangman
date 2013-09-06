@@ -21,7 +21,7 @@ module Hangman
         | 2 -> printfn "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |\n  |\n  |\n________________\n"
         | 1 -> printfn "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |\n  |\n________________\n"
         | 0 -> printfn "  |------         \n  |     |\n  |     0\n  |    /|\\\n  |     |\n  |    / \\\n  |\n________________\n"
-        | _ -> eprintfn "ERROR: internal error, invalid number of tries left."
+        | _ -> eprintfn "ERROR: internal error, invalid number of tries left." //Inserted to keep compiler quiet, if it is reached then the program contains a bug
 
     //A string conversion to list, needed as strings cannot be zipped in this version of fsharp
     let stringToList theString: char list = [for c in theString -> c]
