@@ -1,11 +1,11 @@
 name:                Hangman
 version:             0.1.0.0
 synopsis:            A small hangman game written in Haskell by a beginner to the language
-homepage:            https://github.com/Harmster/Hangman
+homepage:            https://github.com/skejserjensen/Hangman
 license:             GPL-3
 license-file:        ../LICENSE
 author:              Søren Kejser Jensen
-maintainer:          harmster.skj@gmail.com
+maintainer:          devel@kejserjensen.dk
 category:            Game
 build-type:          Simple
 cabal-version:       >=1.8
