@@ -3,7 +3,7 @@
 @implementation NSString (NSStringAdditions)
     - (NSString*) initWithCharacter: (char) aChar length: (int) aLength {
         //A string must be of length 1 or more
-        assert(aLength > 0);
+        NSAssert(aLength > 0, @"initWithCharacter: aLength must be above zero");
 
         //We built a cString containing only the char and is properly terminated
         char cString[aLength+1];

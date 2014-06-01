@@ -1,7 +1,7 @@
 #include "wordlist.h"
 
 //Could not find a header file containing the function so.....
-extern uint32_t arc4random();
+//extern uint32_t arc4random();
 
 @implementation WordList
 
@@ -27,13 +27,6 @@ extern uint32_t arc4random();
         linesInWordList = [entireFileInString componentsSeparatedByString: @"\n"];
         wordListLength = [linesInWordList count];
         return self;
-    }
-
-    /** Destructor **/
-    -(void) dealloc {
-        [super dealloc];
-        [wordListPath release];
-        [linesInWordList release];
     }
 
     /** Public methods **/

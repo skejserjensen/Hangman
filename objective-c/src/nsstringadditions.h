@@ -1,3 +1,4 @@
+#import <Foundation/Foundation.h>
 #import <Foundation/NSString.h>
 
 @interface NSString (NSStringAdditions)

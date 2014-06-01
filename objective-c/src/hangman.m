@@ -16,14 +16,6 @@
         return self;
     }
 
-    /** Destructor **/
-    - (void)dealloc {
-        [super dealloc];
-        [currentWord release];
-        [currentGuess release];
-        [guessedChars release];
-    }
-
     /** Public methods **/
     - (bool)startGame  {
         bool result = [self playGame: 10];
@@ -99,7 +91,6 @@
                 correctGuess = true;
             }
         }
-        [lowerGuessString release];
         return correctGuess;
     }
 

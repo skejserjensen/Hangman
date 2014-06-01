@@ -1,4 +1,5 @@
 #import <stdio.h>
+#import <ctype.h>
 #import <Foundation/NSString.h>
 
 #import "wordlist.h"

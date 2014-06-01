@@ -1,3 +1,5 @@
+#import <stdio.h>
+#import <stdlib.h>
 #import <unistd.h>
 #import <Foundation/NSArray.h>
 #import <Foundation/NSString.h>
