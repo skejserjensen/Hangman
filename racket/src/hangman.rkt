@@ -1,4 +1,4 @@
-(module hangman racket 
+(module hangman racket
         (provide start-game)
         (require "wordlist.rkt")
 
@@ -12,23 +12,31 @@
           (match tries-left
                  [0 (print-status current-guess guessed-chars tries-left) #f]
                  [else (print-status current-guess guessed-chars tries-left)
-                       (if (equal? current-guess random-word) #t
+                       (if (equal? current-guess random-word)
+                         #t
                          (let ([user-guess (guess)])
                            (display "\n") ; Just formatting the output a bit
                            (cond
+                             [(string-contains? user-guess guessed-chars)
+                              (play-game random-word current-guess guessed-chars tries-left)]
                              [(string-contains? user-guess random-word)
-                              (play-game random-word (update-current-guess user-guess (zip-strings random-word current-guess))
+                              (play-game random-word
+                                         (update-current-guess user-guess (zip-strings random-word current-guess))
                                          (update-guessed-chars user-guess guessed-chars) tries-left)]
-                             [(string-contains? user-guess guessed-chars) (play-game random-word current-guess guessed-chars tries-left)]
-                             [else (play-game random-word current-guess (update-guessed-chars user-guess guessed-chars) (- tries-left 1))])))]))
+                             [else (play-game random-word current-guess
+                                              (update-guessed-chars user-guess guessed-chars)
+                                              (- tries-left 1))])))]))
 
 
         (define (guess)
           (display "Enter your next guess: ")
-          (let ([user-guess-string (read-line)]) ; Read-line is used, as read-char seems to leave a newline from return in the input buffer
+          ; Read-line is used, as read-char seems to leave a newline from return in the input buffer
+          (let ([user-guess-string (read-line)])
             (if (< 0 (string-length user-guess-string))
               (let ([user-guess (string-ref user-guess-string 0)])
-                (if (char-alphabetic? user-guess)(char-downcase user-guess)(guess)))
+                (if (char-alphabetic? user-guess)
+                  (char-downcase user-guess)
+                  (guess)))
               (guess))))
 
         (define (string-contains? chr str)
@@ -36,17 +44,17 @@
           (pair? (member chr (string->list str))))
 
         (define (zip-strings str-one str-two)
-          (map list (string->list str-one)(string->list str-two)))
+          (map list (string->list str-one) (string->list str-two)))
 
         (define (update-current-guess user-guess zipped-word-current-guess)
-          (list->string (foldl (lambda (elem acc) 
+          (list->string (foldl (lambda (elem acc)
                                  (if (equal? user-guess (car elem))
                                    (append acc (list (first elem)))
-                                   (append acc (list (second elem))))) empty zipped-word-current-guess)))
+                                   (append acc (list (second elem)))))
+                               empty zipped-word-current-guess)))
 
         (define (update-guessed-chars user-guess guessed-chars)
-          (if (string-contains? user-guess guessed-chars) guessed-chars 
-            (string-append guessed-chars (string-append (string user-guess) " "))))
+            (string-append guessed-chars (string user-guess) " "))
 
         (define (print-status current-guess guessed-chars tries-left)
           (printf "Word: ~a\n" current-guess)
