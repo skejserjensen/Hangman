@@ -60,10 +60,9 @@
                   :else (play-game random-word current-guess
                                    (update-guessed-chars user-guess guessed-chars) (- tries-left 1))))))))
 
-(defn- start-game [word-list-path]
+(defn start-game [word-list-path]
   (let [random-word (read-random-word word-list-path)]
     (if (play-game (clojure.string/lower-case random-word)
                    (apply str (repeat (count random-word) "_")) "" 10)
       (println (str "Congratulations, you guessed the word \"" random-word "\" correctly."))
       (println (str "You did not guess \"" random-word "\" correctly, and have been hanged.")))))
-
