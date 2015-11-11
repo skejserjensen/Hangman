@@ -1,17 +1,13 @@
 #import "nsstringadditions.h"
 
-@implementation NSString (NSStringAdditions)
-    - (NSString*) initWithCharacter: (char) aChar length: (int) aLength {
-        //A string must be of length 1 or more
-        NSAssert(aLength > 0, @"initWithCharacter: aLength must be above zero");
+@implementation NSMutableString (NSStringAdditions)
+    - (NSMutableString*) initWithCharacter: (char) aChar length: (int) aLength {
+        NSAssert(aLength > 0, @"initWithCharacter: length must be above zero");
 
-        //We built a cString containing only the char and is properly terminated
-        char cString[aLength+1];
+        //The cString does not need to be terminated as it is copied by index
+        unichar cString[aLength];
         for(int index = 0; index < aLength; index++)
             cString[index] = aChar;
-        cString[aLength] = '\0';
-
-        //Finally we can create a string with only aChar aLength times
-        return [NSMutableString stringWithFormat: @"%s", cString];
+        return [self initWithCharacters: cString length: aLength];
     }
 @end
