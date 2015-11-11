@@ -1,12 +1,12 @@
-CC= gcc
-CFLAGS= -O3 -Wall -Wno-unused-function -c -o
-OBJ= wordlist.o hangman.o
+CC = gcc
+CFLAGS = -Wall -Wno-unused-function -Werror -O3 -o
+OBJ = wordlist.o hangman.o
 
 all: $(OBJ)
-	@$(CC) src/main.c $(OBJ) -O3 -Wall -Wno-unused-function -g -o hangman 
+	@$(CC) src/main.c $(OBJ) $(CFLAGS) hangman
 
-%.o : src/%.c src/%.h
-	@$(CC) $< $(CFLAGS) $@
+%.o: src/%.c src/%.h
+	@$(CC) $< -c $(CFLAGS) $@
 
 run:
 	@./hangman

@@ -1,12 +1,12 @@
 CPP = g++
-CPPFLAGS = -std=c++11 -Wall -Werror -O3 -c -o
-OBJ = hangman.o wordlist.o
+CPPFLAGS = -Wall -Werror -O3 -o
+OBJ = wordlist.o hangman.o
 
 all: $(OBJ)
-	@$(CPP) src/main.cpp $(OBJ) -O3 -Wall -Werror -o hangman
+	@$(CPP) src/main.cpp $(OBJ) $(CPPFLAGS) hangman
 
 %.o: src/%.cpp src/%.hpp
-	@$(CPP) $< $(CPPFLAGS) $@
+	@$(CPP) $< -c $(CPPFLAGS) $@
 
 run:
 	@./hangman

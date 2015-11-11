@@ -1,15 +1,15 @@
 COBJC = clang
-FLAGS = -fobjc-arc -Wall -Werror -O3
-OBJ = hangman.o wordlist.o nsstringadditions.o
+OBJCFLAGS = -Wall -fobjc-arc -Werror -O3 -o
+OBJ = wordlist.o hangman.o nsstringadditions.o
 
 all: $(OBJ)
-	$(COBJC) src/main.m $(FLAGS) $(OBJ) -o hangman
+	@$(COBJC) src/main.m $(OBJ) $(OBJCFLAGS) hangman
 
 %.o: src/%.m src/%.h
-	$(COBJC) $(FLAGS) $< -c -o $@
+	@$(COBJC) $< -c $(OBJCFLAGS) $@
 
 run:
-	./hangman
+	@./hangman
 
 clean:
 	@rm -f *.o *.d hangman

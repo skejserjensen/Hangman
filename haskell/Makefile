@@ -1,5 +1,5 @@
 all:
-	cd src && ghc Main.hs -o ../hangman
+	@cd src && ghc Main.hs -o ../hangman
 
 run:
 	@./hangman
