@@ -1,5 +1,2 @@
 run:
-	@python ./src/main.py $1
-
-clean:
-	@rm -rf ./src/__pycache__
+	@python -B ./src/main.py $1

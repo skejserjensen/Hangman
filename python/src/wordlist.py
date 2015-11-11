@@ -1,8 +1,4 @@
-#!/bin/python3
-
-##External Imports
 import random
-
 
 class WordList:
     """

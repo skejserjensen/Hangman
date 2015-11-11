@@ -1,9 +1,4 @@
-#!/bin/python3
-
-##External Imports
 import sys
-
-##Internal Imports
 import hangman
 
 #Checks if the user gave us an alternative word list

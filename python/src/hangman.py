@@ -1,8 +1,9 @@
-#!/bin/python3
-
-##Local Import
+import sys
 import wordlist
 
+# Makes input() identical in both Python 2 and 3 so both are compatible with hangman
+if sys.version_info <= (3, 0):
+    input = raw_input
 
 class Hangman:
     """
@@ -94,7 +95,7 @@ class Hangman:
 
         print("The Gallow\n")
 
-        #Prints a man/women getting hanged depeding on how many tries the player have left
+        #Prints a man/women getting hanged depending on how many tries the player have left
         if(self.__tries_left == 10):
             print("\n\n\n\n\n\n   ")
         elif(self.__tries_left == 9):
