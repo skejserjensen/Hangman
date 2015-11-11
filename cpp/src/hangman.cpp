@@ -13,12 +13,12 @@ bool Hangman::startGame()
 {
     bool result = playGame(10);
 
-    if(result) 
+    if(result)
     {
         cout << "Congratulations, you guessed the word \"" << _currentWord << "\" correctly." <<  endl;
         return true;
     }
-    else 
+    else
     {
         cout << "You did not guess \"" << _currentWord << "\" correctly, and have been hanged." << endl;
         return false;
@@ -38,7 +38,7 @@ Hangman::~Hangman()
 }
 
 /** Private methods **/
-bool Hangman::playGame(int triesLeft) 
+bool Hangman::playGame(int triesLeft)
 {
     //Gets a new word from the word list and convert it to underscores
     _currentWord = _wordList->getRandomWord();
@@ -46,7 +46,7 @@ bool Hangman::playGame(int triesLeft)
     printStatus(triesLeft);
 
     //Asks for at new guess as long as the word has not being guessed or the user have tried enough times
-    while (triesLeft > 0) 
+    while (triesLeft > 0)
     {
        char guess = getGuess();
 
@@ -54,17 +54,17 @@ bool Hangman::playGame(int triesLeft)
            triesLeft--;
 
        printStatus(triesLeft);
-  
+
        if(_currentWord == _currentGuess)
            return true;
     }
     return false;
 }
 
-char Hangman::getGuess() 
+char Hangman::getGuess()
 {
     string input;
-    
+
     do
     {
         cout << "Enter your next guess: " << flush;
@@ -82,18 +82,16 @@ bool Hangman::isCharInWord(char guess)
     bool answer = false;
     char input = tolower(guess);
     unsigned int index, stringLength;
-        
-    //Checks if the given chars has already been already guessed 
-    if(!string::npos == _guessedChars.str().find(guess))
+
+    //Checks if the given chars has already been already guessed
+    if(string::npos != _guessedChars.str().find(guess))
         return true;
 
-    //We need the length of the word so we can map correct guesses from the real word to the underscored version
+    //Checks if the word contains instances of the guessed guess
     stringLength = _currentWord.length();
-
-    //Checks if the word contains instances of the guessed guess, uses a counted loop as index is needed
-    for(index =0; index < stringLength; index++)
+    for(index = 0; index < stringLength; index++)
     {
-        //The guess is already converted to its lower case, so we more easily can check if it have been used
+        //The guess is already converted to its lower case, the word is not
         if(_currentWord.at(index) == input || _currentWord.at(index) == toupper(input))
         {
             answer = true;
@@ -103,7 +101,6 @@ bool Hangman::isCharInWord(char guess)
 
     //Adds the guessed character to the guessed characters string
     _guessedChars << input << " ";
-
     return answer;
 }
 
