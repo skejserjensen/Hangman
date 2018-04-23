@@ -1,0 +1,7 @@
+[package]
+name = "hangman"
+version = "0.1.0"
+authors = ["Soeren Kejser Jensen <devel@kejserjensen.dk>"]
+
+[dependencies]
+rand = "0.4.2"
