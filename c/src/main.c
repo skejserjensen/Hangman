@@ -4,7 +4,7 @@
 
 int main(int argc, const char *argv[])
 {
-    //Starts a game of hangman for everyone to enjoy 
+    //Starts a game of hangman for everyone to enjoy
     if(argc == 2)
         startGame(argv[1]);
     else

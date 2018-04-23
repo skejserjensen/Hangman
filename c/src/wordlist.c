@@ -80,7 +80,7 @@ void static countLinesInWordList(unsigned int *longestLine, unsigned int *counte
             //be the length of the buffer used for the word to be guessed.
             if(*longestLine < charsInLine)
                 *longestLine = charsInLine;
-         
+
             //The number of lines are counted as we need to know the boundaries of the 
             //document when we pick a random word to guess.
             (*countedLines)++;

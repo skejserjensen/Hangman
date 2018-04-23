@@ -4,7 +4,7 @@
 int startGame(const char *wordList)
 {
     //Creates a file pointer to the wordlist an checks if it can be opened
-    openWordList(wordList); 
+    openWordList(wordList);
 
     //Gets a random word from the wordlist
     char* randomWord = getRandomWord();
@@ -28,8 +28,8 @@ int static playGame(char* randomWord, unsigned int triesLeft)
     unsigned int counter;
     unsigned int stringLength = strlen(randomWord);
 
-    //An array for all the characters that have been guessed, can be reallocated doing the game 
-    char *guessedChars = calloc(25, sizeof(char)); 
+    //An array for all the characters that have been guessed, can be reallocated doing the game
+    char *guessedChars = calloc(25, sizeof(char));
 
     //Make a new string of underscores to hold the half guessed word
     char wordInUnderscores[stringLength];
@@ -44,11 +44,11 @@ int static playGame(char* randomWord, unsigned int triesLeft)
     printStatus(triesLeft, wordInUnderscores, guessedChars);
 
     //Asks the user for guesses and checks if the letters are in the string
-    while(triesLeft > 0) 
+    while(triesLeft > 0)
     {
         //Ensures that all guesses are starting as lower case letters
         char guess = getCharFromUser();
-        
+
         if(!isCharInWord(guess, randomWord, wordInUnderscores, stringLength) && addGuessedChars(guess, guessedChars))
             triesLeft--;
 
@@ -105,7 +105,7 @@ int static addGuessedChars(char guess, char* guessedChars)
     static unsigned guessedCharsLength = 25;
     static unsigned guessedCharsUsed = 0;
 
-    //Checks if the character has allready been added and retuns if it has 
+    //Checks if the character has allready been added and retuns if it has
     int counter = 0;
     while(guessedChars[counter] != '\0')
     {
@@ -115,7 +115,7 @@ int static addGuessedChars(char guess, char* guessedChars)
         counter++;
     }
 
-    //Realloc guessedChars if it has been filled; 
+    //Realloc guessedChars if it has been filled;
     if(guessedCharsUsed > (guessedCharsLength-3))
     {
         guessedCharsLength *= 1.5;
